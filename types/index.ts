@@ -22,3 +22,10 @@ export interface IQuestion {
 	answers: IAnswer[]
 }
 
+export interface IQuizStore {
+	quizzes: IQuiz[]
+	setQuizzes: (data: IQuiz[]) => void
+	filteredQuizzes: IQuiz[]
+	setFilteredQuizzes: (data: IQuiz[]) => void
+	resetFiltered: () => void
+}

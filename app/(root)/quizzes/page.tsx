@@ -3,32 +3,39 @@ import BackButton from '@/components/shared/back-button'
 import Filter from '@/components/shared/filter'
 import Search from '@/components/shared/search'
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import QuizCard from './_components/quiz-card'
 
 import { db } from '@/firebase'
+import { useQuizStore } from '@/stores/quiz.store'
+import { IQuiz } from '@/types'
 import { collection, getDocs } from 'firebase/firestore'
 
 function Page() {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const [quizzes, setQuizzes] = useState<any[] | null>(null)
+	const { quizzes, filteredQuizzes, setQuizzes } = useQuizStore()
 
 	useEffect(() => {
 		const fetchQuestions = async () => {
 			try {
 				const querySnapshot = await getDocs(collection(db, 'quizzes'))
-				const data = querySnapshot.docs.map(doc => ({
-					...doc.data(),
-				}))
+				const data = querySnapshot.docs.map(doc => {
+					const quiz = doc.data()
+					return {
+						title: quiz.title,
+						description: quiz.description,
+						quizId: quiz.quizId,
+						userId: quiz.userId,
+					} as IQuiz
+				})
 				setQuizzes(data)
-				console.log(data)
+				console.log('quiz', data)
 			} catch (error) {
 				console.error('Ошибка при получении вопросов:', error)
 			}
 		}
 
 		fetchQuestions()
-	}, [])
+	}, [setQuizzes])
 
 	return (
 		<div className='flex flex-col gap-4 py-2'>
@@ -48,15 +55,22 @@ function Page() {
 				transition={{ duration: 0.6, ease: 'easeOut' }}
 				className='grid grid-cols-4 gap-3'
 			>
-				{quizzes &&
-					quizzes.map(t => (
+				{filteredQuizzes &&
+					filteredQuizzes.map(t => (
 						<QuizCard
 							title={t.title}
-							description={t.description}
+							description={t.description ? t.description : ''}
 							key={t.title}
 							quizId={t.quizId}
 						/>
 					))}
+				{!quizzes && (
+					<div className='w-full'>
+						<h3 className='text-center w-full text-white/30 text-xl'>
+							Пока квизы нет!
+						</h3>
+					</div>
+				)}
 			</motion.section>
 		</div>
 	)
