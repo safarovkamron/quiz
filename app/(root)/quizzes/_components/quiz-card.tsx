@@ -9,7 +9,6 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { FaShareFromSquare } from 'react-icons/fa6'
 
@@ -23,9 +22,9 @@ function QuizCard({ title, description, quizId }: IProps) {
 	const route = useRouter()
 	return (
 		<div className='flex flex-col gap-4 border-1 relative border-[#2525] rounded-md px-4 py-2'>
-			<div className='flex flex-col gap-2'>
-				<h3 className='text-2xl font-bold'>{title}</h3>
-				<p className='line-clamp-2'>{description}</p>
+			<div className='flex flex-col gap-2 flex-1'>
+				<h3 className='text-2xl font-bold flex-1'>{title}</h3>
+				<p className='line-clamp-3'>{description}</p>
 			</div>
 			<div className='flex justify-between items-center'>
 				<AlertDialog>
@@ -38,7 +37,9 @@ function QuizCard({ title, description, quizId }: IProps) {
 						</AlertDialogHeader>
 						<AlertDialogFooter>
 							<AlertDialogCancel>Нет</AlertDialogCancel>
-							<AlertDialogAction onClick={() => route.push(`quizzes/${quizId}`)}>
+							<AlertDialogAction
+								onClick={() => route.push(`quizzes/${quizId}`)}
+							>
 								Да
 							</AlertDialogAction>
 						</AlertDialogFooter>

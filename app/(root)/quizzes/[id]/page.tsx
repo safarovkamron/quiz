@@ -8,6 +8,7 @@ import QuizClient from './_components/quiz-client'
 
 function Page() {
 	const { id } = useParams()
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const [questions, setQuestions] = useState<any[] | null>(null)
 	useEffect(() => {
 		const fetchQuestions = async () => {

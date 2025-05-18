@@ -10,6 +10,7 @@ import { db } from '@/firebase'
 import { collection, getDocs } from 'firebase/firestore'
 
 function Page() {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const [quizzes, setQuizzes] = useState<any[] | null>(null)
 
 	useEffect(() => {

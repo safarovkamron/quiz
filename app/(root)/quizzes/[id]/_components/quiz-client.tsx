@@ -93,7 +93,7 @@ function QuizClient({ questions }: IProps) {
 		return (
 			<Card className='mt-10'>
 				<CardHeader>
-					<CardDescription className='text-center'>{`00:${timer}`}</CardDescription>
+					<CardDescription className='text-center'>{`00:${(timer >= 10) ? timer : `0${timer}`}`}</CardDescription>
 					<CardTitle>{currentQuestion!.title}</CardTitle>
 				</CardHeader>
 				<CardContent>

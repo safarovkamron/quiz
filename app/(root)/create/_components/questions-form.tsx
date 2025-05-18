@@ -24,6 +24,8 @@ interface IProps {
 }
 
 function QuestionsForm({ quizId }: IProps) {
+	const [isLoading, setIsLoading] = useState(false)
+
 	const route = useRouter()
 	const [correctIndex, setCorrectIndex] = useState<number>(0)
 	const form = useForm<z.infer<typeof questionSchema>>({
@@ -44,28 +46,33 @@ function QuestionsForm({ quizId }: IProps) {
 	})
 
 	const onSubmit = async (data: z.infer<typeof questionSchema>) => {
-		const updatedAnswers = data.answers.map((a, i) => ({
-			...a,
-			isTrue: i == correctIndex,
-		}))
-		console.log({
-			...data,
-			answers: updatedAnswers,
-		})
+		try {
+			setIsLoading(true)
+			const updatedAnswers = data.answers.map((a, i) => ({
+				...a,
+				isTrue: i == correctIndex,
+			}))
 
-		const promise = addDoc(collection(db, 'questions'), {
-			title: data.title,
-			answers: updatedAnswers,
-			quizId,
-		})
+			const promise = addDoc(collection(db, 'questions'), {
+				title: data.title,
+				answers: updatedAnswers,
+				quizId,
+			})
 
-		toast.promise(promise, {
-			loading: "Loading...",
-			success: "Успешно добавлено!"
-		})
+			await toast.promise(promise, {
+				loading: 'Loading...',
+				success: 'Успешно добавлено!',
+			})
 
-		setCorrectIndex(0)
-		form.reset()
+			setTimeout(() => {
+				form.reset()
+				setCorrectIndex(0)
+			}, 500)
+		} catch (error) {
+			console.error(error)
+		} finally {
+			setIsLoading(false)
+		}
 	}
 
 	return (
@@ -79,7 +86,7 @@ function QuestionsForm({ quizId }: IProps) {
 							<FormControl>
 								<Textarea
 									placeholder='Введите текст вопроса...'
-									// disabled={isLoading}
+									disabled={isLoading}
 									className='h-10 resize-none'
 									{...field}
 								/>
@@ -130,26 +137,30 @@ function QuestionsForm({ quizId }: IProps) {
 
 				<div className='flex items-center justify-between'>
 					<Button
-						className='w-fit rounded-full'
+						className='w-fit rounded-full cursor-pointer'
 						size={'lg'}
 						type='submit'
-						// disabled={isLoading}
+						disabled={isLoading}
 					>
 						<span>Далее</span>
 						<Send className='ml-2 size-4' />
 					</Button>
 
 					<Button
-						className='w-fit rounded-full'
+						className='w-fit rounded-full cursor-pointer'
 						size={'lg'}
-						type='submit'
-						onClick={() => {
-							handleSubmit(async data => {
-								await onSubmit(data)
-								route.push('/')
-							})()
+						type='button'
+						onClick={async () => {
+							const isValid = await form.trigger()
+
+							if (isValid) {
+								const values = form.getValues()
+								await onSubmit(values)
+							}
+
+							route.push('/')
 						}}
-						// disabled={isLoading}
+						disabled={isLoading}
 					>
 						<span>Закончить</span>
 						<Send className='ml-2 size-4' />
