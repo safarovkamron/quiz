@@ -9,16 +9,10 @@ import {
 } from '@/components/ui/alert-dialog'
 import { db } from '@/firebase'
 import { doc, getDoc } from 'firebase/firestore'
-import { Metadata } from 'next'
 import Link from 'next/link'
 
-type Props = {
-	params: {
-		id: string
-	}
-}
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function generateMetadata({ params }: any) {
 	const quizId = params.id
 	const ref = doc(db, 'quizzes', quizId)
 	const snap = await getDoc(ref)
@@ -48,7 +42,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	}
 }
 
-export default async function Page({ params }: Props) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default async function Page({ params }: any) {
 	const quizId = params.id
 
 	return (
