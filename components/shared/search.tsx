@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { Input } from '../ui/input'
-import { SearchIcon } from 'lucide-react'
+'use client'
 import { useQuizStore } from '@/stores/quiz.store'
+import { SearchIcon } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Input } from '../ui/input'
 
 function Search() {
 	const { quizzes, setFilteredQuizzes } = useQuizStore()
@@ -13,12 +14,16 @@ function Search() {
 			quiz.title.toLowerCase().includes(term)
 		)
 		setFilteredQuizzes(filtered)
-	}, [value, quizzes, setFilteredQuizzes])
+	}, [value])
 
 	return (
 		<div className='w-full relative'>
-			<Input placeholder='Search quiz...' type='text' onChange={(e) => setValue(e.target.value)}/>
-			<SearchIcon className='absolute right-2 top-1 max-sm:hidden'/>
+			<Input
+				placeholder='Search quiz...'
+				type='text'
+				onChange={e => setValue(e.target.value)}
+			/>
+			<SearchIcon className='absolute right-2 top-1 max-sm:hidden' />
 		</div>
 	)
 }

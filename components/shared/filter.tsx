@@ -1,4 +1,8 @@
+'use client'
+import { useQuizStore } from '@/stores/quiz.store'
+import { useUserState } from '@/stores/user.store'
 import { FilterIcon } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -10,6 +14,24 @@ import {
 } from '../ui/dropdown-menu'
 
 function Filter() {
+	const { user } = useUserState()
+	const { quizzes, setFilteredQuizzes } = useQuizStore()
+	const [filter, setFilter] = useState('')
+	const currentId = user?.uid
+
+	useEffect(() => {
+		const filtered = quizzes.filter(quiz => {
+			if (filter === 'my') {
+				return quiz.userId === currentId
+			}
+			if (filter === 'all') {
+				return true
+			}
+			return true
+		})
+		setFilteredQuizzes(filtered)
+	}, [filter, currentId])
+
 	return (
 		<div className='cursor-pointer'>
 			<DropdownMenu>
@@ -17,11 +39,11 @@ function Filter() {
 					<FilterIcon />
 				</DropdownMenuTrigger>
 				<DropdownMenuContent className='w-56'>
-					<DropdownMenuLabel>Выберите фильт</DropdownMenuLabel>
+					<DropdownMenuLabel>Выберите фильтр</DropdownMenuLabel>
 					<DropdownMenuSeparator />
-					<DropdownMenuRadioGroup>
-						<DropdownMenuRadioItem value='top'>Мои квизыp</DropdownMenuRadioItem>
-						<DropdownMenuRadioItem value='bottom'>Публичные</DropdownMenuRadioItem>
+					<DropdownMenuRadioGroup value={filter} onValueChange={setFilter}>
+						<DropdownMenuRadioItem value='my'>Мои квизы</DropdownMenuRadioItem>
+						<DropdownMenuRadioItem value='all'>Публичные</DropdownMenuRadioItem>
 					</DropdownMenuRadioGroup>
 				</DropdownMenuContent>
 			</DropdownMenu>

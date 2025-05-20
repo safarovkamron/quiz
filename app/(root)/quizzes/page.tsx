@@ -33,7 +33,7 @@ function Page() {
 				console.error('Ошибка при получении вопросов:', error)
 			}
 		}
-
+		console.log(filteredQuizzes)
 		fetchQuestions()
 	}, [setQuizzes])
 
@@ -55,7 +55,7 @@ function Page() {
 				transition={{ duration: 0.6, ease: 'easeOut' }}
 				className='grid grid-cols-4 gap-3'
 			>
-				{filteredQuizzes &&
+				{filteredQuizzes.length ? (
 					filteredQuizzes.map(t => (
 						<QuizCard
 							title={t.title}
@@ -63,7 +63,14 @@ function Page() {
 							key={t.title}
 							quizId={t.quizId}
 						/>
-					))}
+					))
+				) : (
+					<div className='w-full'>
+						<h3 className='text-center w-full text-white/30 text-xl'>
+							Квизы не найдены!
+						</h3>
+					</div>
+				)}
 				{!quizzes && (
 					<div className='w-full'>
 						<h3 className='text-center w-full text-white/30 text-xl'>
