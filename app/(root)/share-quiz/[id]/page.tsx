@@ -12,13 +12,11 @@ import { doc, getDoc } from 'firebase/firestore'
 import { Metadata } from 'next'
 import Link from 'next/link'
 
-interface PageProps {
-	params: {
-		id: string
-	}
-}
-
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+export async function generateMetadata({
+	params,
+}: {
+	params: { id: string }
+}): Promise<Metadata> {
 	const quizId = params.id
 	const quizRef = doc(db, 'quizzes', quizId)
 	const quizSnap = await getDoc(quizRef)
@@ -26,7 +24,8 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 
 	const title = quiz?.title || 'Приглашение на квиз'
 	const description = 'Пройди интересный квиз и проверь свои знания!'
-	const image = quiz?.coverImage || 'https://yourdomain.com/default-quiz-cover.png'
+	const image =
+		quiz?.coverImage || 'https://yourdomain.com/default-quiz-cover.png'
 
 	return {
 		title,
@@ -55,9 +54,14 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 	}
 }
 
-function Page({ params }: PageProps) {
+export default async function Page({ params }: { params: { id: string } }) {
 	const quizId = params.id
-	// const route = useRouter()
+
+	// Можно получить сам квиз, если хочешь отобразить в диалоге, например
+	// const quizRef = doc(db, 'quizzes', quizId)
+	// const quizSnap = await getDoc(quizRef)
+	// const quiz = quizSnap.exists() ? quizSnap.data() : null
+
 	return (
 		<div className='flex justify-between items-center'>
 			<AlertDialog open={true}>
@@ -68,7 +72,7 @@ function Page({ params }: PageProps) {
 					<AlertDialogFooter>
 						<AlertDialogCancel>Нет</AlertDialogCancel>
 						<AlertDialogAction>
-							<Link href={`quizzes/${quizId}`}>Да</Link>
+							<Link href={`/quizzes/${quizId}`}>Да</Link>
 						</AlertDialogAction>
 					</AlertDialogFooter>
 				</AlertDialogContent>
@@ -76,5 +80,3 @@ function Page({ params }: PageProps) {
 		</div>
 	)
 }
-
-export default Page
