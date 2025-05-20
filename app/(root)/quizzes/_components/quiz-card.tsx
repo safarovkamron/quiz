@@ -20,6 +20,7 @@ interface IProps {
 
 function QuizCard({ title, description, quizId }: IProps) {
 	const route = useRouter()
+	const telegramUrl = `https://t.me/share/url?url=https://quiz-pi-teal.vercel.app/share-quiz/${quizId}`
 	return (
 		<div className='flex flex-col gap-4 border-1 relative border-[#2525] rounded-md px-4 py-2'>
 			<div className='flex flex-col gap-2 flex-1'>
@@ -45,7 +46,9 @@ function QuizCard({ title, description, quizId }: IProps) {
 						</AlertDialogFooter>
 					</AlertDialogContent>
 				</AlertDialog>
-				<FaShareFromSquare className='cursor-pointer' />
+				<a href={telegramUrl!} target='_blank' rel='noopener noreferrer'>
+					<FaShareFromSquare className='cursor-pointer' />
+				</a>
 			</div>
 		</div>
 	)

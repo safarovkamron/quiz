@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: any) {
 
 	const title = quiz?.title || 'Приглашение на квиз'
 	const description = 'Пройди интересный квиз и проверь свои знания!'
-	// const image = quiz?.coverImage || 'https://yourdomain.com/default-quiz-cover.png'
+	const image = 'https://d1ymz67w5raq8g.cloudfront.net/Pictures/480xany/6/5/5/509655_shutterstock_1506580442_769367.jpg'
 
 	return {
 		title,
@@ -28,8 +28,8 @@ export async function generateMetadata({ params }: any) {
 		openGraph: {
 			title,
 			description,
-			// images: [{ url: image, width: 800, height: 600 }],
-			url: `https://yourdomain.com/share-quiz/${quizId}`,
+			images: [{ url: image, width: 500, height: 500 }],
+			url: `https://quiz-pi-teal.vercel.app/share-quiz/${quizId}`,
 			siteName: 'QuizMaster',
 			type: 'website',
 		},
@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: any) {
 			card: 'summary_large_image',
 			title,
 			description,
-			// images: [image],
+			images: [image],
 		},
 	}
 }
@@ -54,7 +54,9 @@ export default async function Page({ params }: any) {
 						<AlertDialogTitle>Вы готовы начинать?</AlertDialogTitle>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
-						<AlertDialogCancel>Нет</AlertDialogCancel>
+						<AlertDialogCancel>
+							<Link href={`/`}>Нет</Link>
+						</AlertDialogCancel>
 						<AlertDialogAction>
 							<Link href={`/quizzes/${quizId}`}>Да</Link>
 						</AlertDialogAction>
