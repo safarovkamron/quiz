@@ -2,12 +2,10 @@
 import { MagicCard } from '@/components/magicui/magic-card'
 import { NumberTicker } from '@/components/magicui/number-ticker'
 import { TextAnimate } from '@/components/magicui/text-animate'
-import { Button } from '@/components/ui/button'
 import {
 	Card,
 	CardContent,
 	CardDescription,
-	CardFooter,
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card'
@@ -19,11 +17,10 @@ import { doc, getDoc } from 'firebase/firestore'
 import { useTheme } from 'next-themes'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { FaTelegram } from 'react-icons/fa6'
 
 function Page() {
 	const user = useUserState().user
-	const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(`https://quiz-app.vercel.app/user-stats/${user?.uid}`)}&text=${encodeURIComponent('Смотри мой результат! Попробуй и ты пройти квизы!')}`
+
 	const { theme } = useTheme()
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const [stats, setStats] = useState<any>({
@@ -125,19 +122,6 @@ function Page() {
 							</div>
 						</div>
 					</CardContent>
-					<CardFooter className='p-4 border-t border-border [.border-t]:pt-4'>
-						<a
-							href={shareUrl}
-							target='_blank'
-							rel='noopener noreferrer'
-							className='w-full'
-						>
-							<Button className='w-full flex items-center gap-2 cursor-pointer'>
-								<span>Поделиться в Telegram</span>
-								<FaTelegram />
-							</Button>
-						</a>
-					</CardFooter>
 				</MagicCard>
 			</Card>
 		</section>
