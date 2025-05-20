@@ -2,9 +2,13 @@ import { db } from '@/firebase'
 import { doc, getDoc } from 'firebase/firestore'
 import { Metadata } from 'next'
 
-async function Page({ params }: { params: { id: string } }): Promise<Metadata> {
-	const statsRef = doc(db, 'userStats', params.id)
-	const userRef = doc(db, 'users', params.id)
+async function Page({
+	params,
+}: {
+	params: { userId: string }
+}): Promise<Metadata> {
+	const statsRef = doc(db, 'userStats', params.userId)
+	const userRef = doc(db, 'users', params.userId)
 	const [statsSnap, userSnap] = await Promise.all([
 		getDoc(statsRef),
 		getDoc(userRef),
@@ -35,7 +39,7 @@ async function Page({ params }: { params: { id: string } }): Promise<Metadata> {
 					alt: 'Avatar',
 				},
 			],
-			url: `https://yourdomain.com/user-stats/${params.id}`,
+			url: `https://yourdomain.com/user-stats/${params.userId}`,
 			siteName: 'QuizMaster',
 			type: 'website',
 		},
