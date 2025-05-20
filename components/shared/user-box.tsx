@@ -31,7 +31,7 @@ function UserBox() {
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
 					<Avatar className='cursor-pointer'>
-						<AvatarImage src={'../../public/globe.svg'} />
+						{user.photoURL && <AvatarImage src={user.photoURL} />}
 						<AvatarFallback className='uppercase'>
 							{user.email![0]}
 						</AvatarFallback>

@@ -4,7 +4,7 @@ export interface IChildProps {
 	children: ReactNode
 }
 
-export interface IAnswer{
+export interface IAnswer {
 	title: string
 	isTrue: boolean
 }
@@ -28,4 +28,10 @@ export interface IQuizStore {
 	filteredQuizzes: IQuiz[]
 	setFilteredQuizzes: (data: IQuiz[]) => void
 	resetFiltered: () => void
+}
+
+export interface IUserStats {
+	totalQuizzesPassed: number
+	totalCorrectAnswers: number
+	totalIncorrectAnswers: number
 }

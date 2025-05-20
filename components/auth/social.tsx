@@ -1,5 +1,5 @@
 'use client'
-import { auth } from '@/firebase'
+import { auth, db } from '@/firebase'
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -7,6 +7,7 @@ import { FaGoogle } from 'react-icons/fa6'
 import FillLoading from '../shared/fill-loading'
 import { Button } from '../ui/button'
 import { Separator } from '../ui/separator'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
 
 const Social = () => {
 	const [isLoading, setIsLoading] = useState(false)
@@ -14,14 +15,32 @@ const Social = () => {
 	const router = useRouter()
 
 	const onGoogle = () => {
-		setIsLoading(true)
-		const googleProvider = new GoogleAuthProvider()
-		signInWithPopup(auth, googleProvider)
-			.then(() => {
-				router.refresh()
-			})
-			.finally(() => setIsLoading(false))
-	}
+	setIsLoading(true)
+	const googleProvider = new GoogleAuthProvider()
+
+	signInWithPopup(auth, googleProvider)
+		.then(async res => {
+			const user = res.user
+
+			
+			const statsRef = doc(db, 'userStats', user.uid)
+			const statsSnap = await getDoc(statsRef)
+
+			if (!statsSnap.exists()) {
+				await setDoc(statsRef, {
+					totalQuizzesPassed: 0,
+					totalCorrectAnswers: 0,
+					totalIncorrectAnswers: 0,
+				})
+			}
+
+			router.refresh()
+		})
+		.catch(error => {
+			console.error('Ошибка входа через Google:', error.message)
+		})
+		.finally(() => setIsLoading(false))
+}
 
 	return (
 		<>

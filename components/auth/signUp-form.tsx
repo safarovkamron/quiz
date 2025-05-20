@@ -10,19 +10,19 @@ import {
 	FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { auth } from '@/firebase'
+import { auth, db } from '@/firebase'
 import { registerSchema } from '@/lib/validation'
 import { useAuthState } from '@/stores/auth.store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { doc, setDoc } from 'firebase/firestore'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 function SignUpForm() {
 	const [isLoading, setIsLoading] = useState(false)
-	const [error, setError] = useState('')
 
 	const { setAuth } = useAuthState()
 	// const navigate = useNavigate()
@@ -37,12 +37,20 @@ function SignUpForm() {
 		setIsLoading(true)
 		try {
 			const res = await createUserWithEmailAndPassword(auth, email, passowrd)
-			console.log(res)
+			const user = res.user
+
+			// Создание документа в userStats
+			const statsRef = doc(db, 'userStats', user.uid)
+			await setDoc(statsRef, {
+				totalQuizzesPassed: 0,
+				totalCorrectAnswers: 0,
+				totalIncorrectAnswers: 0,
+			})
+
 			// navigate('/')
 		} catch (ERROR) {
 			const result = ERROR as Error
-			setError(result.message)
-			console.log(error)
+			console.log(result.message)
 		} finally {
 			setIsLoading(false)
 		}
