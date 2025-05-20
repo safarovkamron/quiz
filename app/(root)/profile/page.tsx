@@ -54,7 +54,7 @@ function Page() {
 
 	return (
 		<section className='flex flex-col gap-4 w-full h-full items-center justify-center'>
-			<Card className='p-0 max-w-sm  w-full shadow-none border-none'>
+			<Card className='p-0 max-w-md  w-full shadow-none border-none'>
 				<MagicCard
 					gradientColor={theme === 'dark' ? '#262626' : '#D9D9D955'}
 					className='p-0'
@@ -92,6 +92,7 @@ function Page() {
 							<Separator />
 							<div
 								className='flex items-center justify-between max-md:flex-wrap
+								max-md:flex-col gap-4
 							'
 							>
 								<div className='text-center flex flex-col gap-2'>

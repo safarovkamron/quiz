@@ -18,14 +18,14 @@ function Hero() {
 			</h1>
 			<TextAnimate
 				animation='slideLeft'
-				by='character'
-				className='mt-6 text-xl max-md:text-lg text-gray-600 dark:text-gray-300'
+				by='word'
+				className='mt-6 text-2xl max-md:text-xl text-gray-600 dark:text-gray-300 text-center'
 			>
 				Проверь себя и брось вызов друзьям с лёгкостью!
 			</TextAnimate>
 			<div className='flex gap-4 items-center justify-center'>
 				<InteractiveHoverButton
-					className='mt-8 px-8 py-4 max-md:px-3 max-md:py-2 max-md:text-sm font-semibold text-foreground text-lg rounded-xl transition cursor-pointer border-1 border-foreground'
+					className='mt-8 px-8 py-4 max-md:px-4 max-md:py-3 max-md:text-base font-semibold text-foreground text-lg rounded-xl transition cursor-pointer border-1 border-foreground'
 					onClick={() => router.push('/create')}
 				>
 					Создать квиз
@@ -34,7 +34,7 @@ function Hero() {
 					onClick={() => router.push('/quizzes')}
 					whileHover={{ scale: 1.05 }}
 					whileTap={{ scale: 0.95 }}
-					className='mt-8 px-8 py-4 max-md:px-3 max-md:py-2 max-md:text-sm bg-primary font-semibold text-white text-lg rounded-xl transition cursor-pointer'
+					className='mt-8 px-8 py-4 max-md:px-4 max-md:py-[14px]  max-md:text-base bg-primary font-semibold text-white text-lg rounded-xl transition cursor-pointer'
 				>
 					Начать квиз
 				</motion.button>

@@ -53,7 +53,7 @@ function Page() {
 				initial={{ opacity: 0, y: 50 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.6, ease: 'easeOut' }}
-				className='grid grid-cols-4 gap-3'
+				className='grid grid-cols-4 gap-3 max-md:grid-cols-2 max-lg:grid-cols-3 max-sm:grid-cols-1'
 			>
 				{filteredQuizzes.length ? (
 					filteredQuizzes.map(t => (

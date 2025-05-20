@@ -14,12 +14,12 @@ function FetureCard({ icon, title }: IProps) {
 			hidden: { opacity: 0, y: 20 },
 			visible: { opacity: 1, y: 0 },
 		}}
-		className='flex flex-col gap-2 justify-center items-center border-x-2 py-6'
+		className='flex flex-col gap-2 justify-center items-center border-x-2 py-6 max-md:py-3 text-center'
 	>
 		<div>
 			{icon}
 			</div>
-		<h3 className="mt-4 text-lg font-semibold">{title}</h3>
+		<h3 className="mt-4 text-lg max-md:text-sm  font-semibold">{title}</h3>
 		
 	</motion.div>
 	)

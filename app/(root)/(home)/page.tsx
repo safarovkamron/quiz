@@ -24,7 +24,7 @@ function Page() {
 							},
 						},
 					}}
-					className='grid grid-cols-4 gap-4 max-lg:grid-cols-2 max-lg:gap-y-10'
+					className='grid grid-cols-4 gap-4 max-lg:grid-cols-2 max-lg:gap-y-10 max-md:grid-cols-1'
 				>
 					{Features.map(i => (
 						<FetureCard icon={<i.icon />} title={i.title} key={i.title} />
