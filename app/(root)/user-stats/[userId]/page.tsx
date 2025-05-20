@@ -2,11 +2,7 @@ import { db } from '@/firebase'
 import { doc, getDoc } from 'firebase/firestore'
 import { Metadata } from 'next'
 
-export async function page({
-	params,
-}: {
-	params: { id: string }
-}): Promise<Metadata> {
+async function Page({ params }: { params: { id: string } }): Promise<Metadata> {
 	const statsRef = doc(db, 'userStats', params.id)
 	const userRef = doc(db, 'users', params.id)
 	const [statsSnap, userSnap] = await Promise.all([
@@ -51,3 +47,5 @@ export async function page({
 		},
 	}
 }
+
+export default Page
